@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <limits>
 
 #include "candy.h"
 
@@ -30,7 +31,7 @@ void playGame(
     Stats &stats,
     bool reshuffle)
 {
-    GameStats stats_g;;
+    GameStats stats_g{};
     stats.games++;
     auto c = deck.cards.begin();
     for (;;)
@@ -65,13 +66,33 @@ void playGame(
     }
 }
 
+void output_vals_stats(std::vector<GameStats> &vals)
+{
+    double sum = 0;
+    double max_val = std::numeric_limits<double>::min();
+    double min_val = std::numeric_limits<double>::max();
+    for (auto val : vals)
+    {
+        auto x = val.turns;
+        sum += x;
+        if (x > max_val) max_val = x;
+        if (x < min_val) min_val = x;
+    }
+
+    std::cout
+        << "mean: " << std::to_string(sum/vals.size()) << " "
+        << "min: " << std::to_string(min_val) << " "
+        << "max: " << std::to_string(max_val) << " "
+        << std::endl;
+}
+
 int main()
 {
     Deck deck;
     Stats stats{};
     std::vector<Player> players(4);
 
-    for (int i = 0; i < 100000; i++)
+    for (int i = 0; i < 1e6; i++)
     {
         deck.shuffle();
         playGame(players, deck, stats, true);
@@ -94,4 +115,5 @@ int main()
             << std::to_string(win_pct)
             << std::endl;
     }
+    output_vals_stats(stats.game_stats);
 }

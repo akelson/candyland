@@ -46,7 +46,7 @@ ColorCard Card::colorCard() const
 
 bool Player::play(const Card& card)
 {
-    if (SpecialCard::NONE != card.specialCard())
+    if (SpecialCard::NONE != card.specialCard()) [[unlikely]]
     {
         playSpecial(card.specialCard());
         return false;
@@ -74,7 +74,7 @@ bool Player::play(const Card& card)
     }
 
     // Now handle special squares
-    switch (pos_)
+    switch (pos_) [[unlikely]]
     {
         case 0 * NUM_COLORS + Color::BLUE:
             // Ride the river shortcut
