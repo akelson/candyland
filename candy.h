@@ -55,7 +55,15 @@ struct Card
 {
     Card(size_t id = 0) : index_(id) {}
 
-    SpecialCard specialCard() const;
+    inline SpecialCard specialCard() const
+    {
+        if (index_ >= CardIDs::START_SPECIAL)
+        {
+            return static_cast<SpecialCard>(index_ - CardIDs::START_SPECIAL);
+        }
+
+        return SpecialCard::NONE;
+    }
     ColorCard colorCard() const;
 
     size_t index_;
@@ -69,16 +77,27 @@ struct Deck
 
     std::array<Card, NUM_CARDS> cards;
     std::random_device rd;
+    std::default_random_engine g;
 };
 
 
 struct Player
 {
-    int pos_ = -1;
+    Player() :
+        pos_()
+    {
+        reset();
+    }
+
+    int pos_;
     bool skip_turn_ = false;
 
     bool play(const Card&);
     void playSpecial(const SpecialCard&);
+    void reset()
+    {
+        pos_ = -1;
+    }
 
     auto operator<=>(const Player&) const = default;
 };

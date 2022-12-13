@@ -3,15 +3,6 @@
 
 #include "candy.h"
 
-SpecialCard Card::specialCard() const
-{
-    if (index_ >= CardIDs::START_SPECIAL)
-    {
-        return static_cast<SpecialCard>(index_ - CardIDs::START_SPECIAL);
-    }
-
-    return SpecialCard::NONE;
-}
 
 ColorCard Card::colorCard() const
 {
@@ -46,7 +37,7 @@ ColorCard Card::colorCard() const
 
 bool Player::play(const Card& card)
 {
-    if (SpecialCard::NONE != card.specialCard()) [[unlikely]]
+    if (SpecialCard::NONE != card.specialCard()) // [[unlikely]]
     {
         playSpecial(card.specialCard());
         return false;
@@ -74,7 +65,7 @@ bool Player::play(const Card& card)
     }
 
     // Now handle special squares
-    switch (pos_) [[unlikely]]
+    switch (pos_)
     {
         case 0 * NUM_COLORS + Color::BLUE:
             // Ride the river shortcut
@@ -123,7 +114,8 @@ void Player::playSpecial(const SpecialCard& card)
     return;
 }
 
-Deck::Deck()
+Deck::Deck() :
+    g(rd())
 {
     for (size_t i = 0; i < NUM_CARDS; i++)
     {
@@ -133,6 +125,5 @@ Deck::Deck()
 
 void Deck::shuffle()
 {
-    std::default_random_engine g(rd());
     std::shuffle(cards.begin(), cards.end(), g);
 }
