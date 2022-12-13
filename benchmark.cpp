@@ -42,8 +42,6 @@ static void BM_playGame(benchmark::State& state)
         playGame(players, deck, stats.player_stats, stats_g, true);
         for (auto &p : players) p.reset();
     }
-
-    std::cout << "Turns: " << stats_g.turns << std::endl;
 }
 
 BENCHMARK(BM_playGame);
