@@ -14,7 +14,7 @@ FetchContent_Declare(
 
 FetchContent_Declare(
   googlebenchmark
-  GIT_REPOSITORY git@github.com:google/benchmark.git
+  GIT_REPOSITORY https://github.com/google/benchmark
   GIT_TAG main
 )
 
