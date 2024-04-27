@@ -12,6 +12,8 @@ FetchContent_Declare(
   URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
 )
 
+set(BENCHMARK_ENABLE_GTEST_TESTS OFF CACHE BOOL "" FORCE)
+set(BENCHMARK_ENABLE_TESTING OFF CACHE BOOL "" FORCE)
 FetchContent_Declare(
   googlebenchmark
   GIT_REPOSITORY https://github.com/google/benchmark
@@ -23,16 +25,18 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 FetchContent_MakeAvailable(googlebenchmark)
 
+include(GoogleTest)
+enable_testing()
+
 add_library(candy candy.cpp)
 add_library(sim sim.cpp)
 
 add_executable(sim_main sim_main.cpp sim)
 target_link_libraries(sim_main candy)
 
-add_executable(test test.cpp)
-target_link_libraries(test candy GTest::gtest_main)
-include(GoogleTest)
-gtest_discover_tests(test)
+add_executable(run_tests test.cpp)
+target_link_libraries(run_tests candy GTest::gtest_main)
+gtest_discover_tests(run_tests)
 
-add_executable(mybenchmark benchmark.cpp)
-target_link_libraries(mybenchmark candy sim benchmark::benchmark_main)
+add_executable(run_benchmarks benchmark.cpp)
+target_link_libraries(run_benchmarks candy sim benchmark::benchmark_main)
