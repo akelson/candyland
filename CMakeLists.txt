@@ -26,6 +26,7 @@ FetchContent_MakeAvailable(googletest)
 FetchContent_MakeAvailable(googlebenchmark)
 
 include(GoogleTest)
+include(CTest)
 enable_testing()
 
 add_library(candy candy.cpp)
