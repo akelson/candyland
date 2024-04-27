@@ -19,6 +19,7 @@ void output_vals_stats(std::vector<GameStats> &vals)
     }
 
     std::cout
+        << "-- Number of turns per game -- " << std::endl
         << "mean: " << std::to_string(sum/vals.size()) << " "
         << "min: " << std::to_string(min_val) << " "
         << "max: " << std::to_string(max_val) << " "
